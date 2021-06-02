@@ -36,7 +36,7 @@ function Users({ getUserDetails, userReducer }) {
           {userDetails &&
             userDetails.map((item, key) => {
               return (
-                <tr>
+                <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.phone}</td>
