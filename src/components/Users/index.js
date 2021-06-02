@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { getUserDetails } from "../../actions/users";
+import { connect } from "react-redux";
 import "./user.css";
 
-export default function Users() {
+function Users({ getUserDetails, userReducer }) {
   const [userDetails, setUserDetails] = useState([]);
 
   const handleButtonClick = () => {
     // make a call to Action Creator
+    console.log("Step 1: Make a call to action-creator from User component");
+    getUserDetails();
   };
+
+  useEffect(() => {
+    // Update the UI as soon as we get our response through API call
+    console.log("Step 5: Inside UseEffect of User Component to update the UI");
+    setUserDetails(userReducer.userDetails.data);
+  }, [userReducer.userDetails]);
 
   return (
     <div className="container">
@@ -40,3 +50,15 @@ export default function Users() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  userReducer: state.userReducer,
+});
+
+// The functions passed in mapDispatchToProps must be action creators, i.e. functions that returns Redux actions.
+
+const mapDispatchToProps = {
+  getUserDetails,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users);
